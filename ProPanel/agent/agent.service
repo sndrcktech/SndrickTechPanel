@@ -1,0 +1,13 @@
+[Unit]
+Description=SandrickTechPanel Agent
+After=network.target docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/sandricktechpanel/agent
+ExecStart=/usr/bin/python3 agent.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

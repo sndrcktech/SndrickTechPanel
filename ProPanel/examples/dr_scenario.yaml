@@ -1,0 +1,17 @@
+failover_policy:
+  - role: web
+    primary: "v1"
+    reserves:
+      - id: "v2"
+        geo: "RU"
+        activation: "auto"
+      - id: "v3"
+        geo: "EU"
+        activation: "manual"
+    actions:
+      - step: "swap"
+        notify: ["telegram", "matrix"]
+      - step: "replicate"
+        comment: "Full sync before promotion"
+      - step: "test_dns"
+        comment: "Ensure DNS updated for failover"

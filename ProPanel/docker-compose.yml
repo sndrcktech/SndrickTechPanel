@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  panel:
+    build: ./backend
+    ports: [ "443:443" ]
+    environment:
+      - VAULT_ADDR=http://vault:8200
+      - EVENTBUS=nats://eventbus:4222
+    depends_on: [ vault, eventbus, prometheus ]
+  agent:
+    build: ./agent
+    network_mode: "host"
+    privileged: true
+  vault:
+    image: hashicorp/vault:1.14
+    ports: [ "8200:8200" ]
+  eventbus:
+    image: nats:2.9
+    ports: [ "4222:4222" ]
+  prometheus:
+    image: prom/prometheus
+    ports: [ "9090:9090" ]
+  grafana:
+    image: grafana/grafana
+    ports: [ "3000:3000" ]
+  siem:
+    image: graylog/graylog:5.2
+    ports: [ "9000:9000" ]

@@ -1,0 +1,70 @@
+pip install pyotp qrcode[pil]
+npm install xterm
+npm install xterm-addon-fit
+pip install pywebpush cryptography
+# Python one-liner:
+python -c "from cryptography.hazmat.primitives.asymmetric import ec; from cryptography.hazmat.primitives import serialization; k=ec.generate_private_key(ec.SECP256R1()); print(k.private_bytes(encoding=serialization.Encoding.PEM,format=serialization.PrivateFormat.PKCS8,encryption_algorithm=serialization.NoEncryption()).decode()); print(k.public_key().public_bytes(encoding=serialization.Encoding.PEM,format=serialization.PublicFormat.SubjectPublicKeyInfo).decode())"
+npm install web-push
+npm install idb-keyval
+pip install cloudflare
+
+/etc/sandricktechpanel/ca/
+  root/
+    ca.key, ca.crt, index.txt, serial, crlnumber, crl.pem, audit.log
+  intermediate/
+    ca.key, ca.crt, index.txt, serial, crlnumber, crl.pem, audit.log
+    certs/
+    private/
+    csr/
+Требует:
+
+    Установить certbot (apt install certbot), для wildcard — certbot + DNS plugin (например, python3-certbot-dns-cloudflare).
+
+    Указать email администратора и использовать поддерживаемые домены.
+	
+	# Например, для контроля срока сертификата
+status = "ok"
+level = "info"
+if days_left < 10:
+    status = "expiring soon"
+    level = "error"
+import requests
+requests.post("http://localhost:8000/api/v1/monitoring/push", json={
+    "name": "letsencrypt:site1.example.com",
+    "status": status,
+    "level": level,
+    "details": {"days_left": days_left, "expires": exp_date}
+}, headers={"Authorization": "Bearer ..."})
+
+
+Установка зависимостей
+
+    pywebpush (pip install pywebpush)
+
+    Генерация ключей VAPID (один раз, например с помощью openssl):
+    openssl ecparam -name prime256v1 -genkey -noout -out vapid_private.pem
+    openssl ec -in vapid_private.pem -pubout -out vapid_public.pem
+
+    Ключи должны лежать, например, в /etc/sandricktechpanel/vapid_private.pem и vapid_public.pem
+	
+	
+	
+	# Где угодно в коде, где есть событие:
+from app.api.api_v1.endpoints.alert_matrix import load_matrix
+matrix = load_matrix()
+channels = matrix.get("cert_expiry", ["email"])
+if "email" in channels:
+    # ... отправить email
+if "telegram" in channels:
+    # ... отправить telegram
+if "push" in channels:
+    # ... отправить web push
+from app.api.api_v1.endpoints.alert_templates import load_templates
+
+def render_alert(event: str, channel: str, **kwargs):
+    templates = load_templates()
+    tpl = templates.get(event, {}).get(channel)
+    if tpl:
+        return tpl.format(**kwargs)
+    return f"{event}: {kwargs}"
+

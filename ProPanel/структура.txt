@@ -1,0 +1,57 @@
+SandrickTechPlatform/
+├── README.md
+├── install.md
+├── build.sh
+├── docker-compose.yml
+├── topology.yaml                # (инициальная топология, можно пустую)
+├── policies.yaml
+├── SHA256SUMS.txt               # (для контроля целостности)
+├── docs/
+│   └── SandrickTechPlatform-Guide.md
+│
+├── backend/
+
+следующая секция│   ├── app/
+│   │   ├── main.py
+│   │   ├── topology.py
+│   │   ├── agent_api.py
+│   │   ├── policy.py
+│   │   ├── ssh_add.py
+│   │   ├── audit.py
+│   │   ├── monitoring.py
+│   │   ├── secrets.py
+│   │   ├── backup.py
+│   │   ├── failover.py
+│   │   ├── role_catalog.py
+│   │   └── plugin.py
+│   └── Dockerfile
+│
+├── agent/
+│   ├── agent.py
+│   └── Dockerfile
+│
+├── roles/
+│   └── catalog.yaml
+│
+├── plugins/
+│   └── ...production plugin modules (например: web.py, mail.py, ca.py и др.)
+│
+└── frontend/
+    ├── layout.tsx
+    ├── topology/
+    │   └── page.tsx
+    ├── components/
+    │   └── role/
+    │       └── RoleWizard.tsx
+    ├── app/
+    │   ├── aiassist/
+    │   │   └── page.tsx
+    │   ├── wizard/
+    │   │   └── add-server/
+    │   │       └── page.tsx
+    │   ├── policy/
+    │   │   └── page.tsx
+    │   ├── reports/
+    │   │   └── page.tsx
+    │   └── ...
+    └── ...

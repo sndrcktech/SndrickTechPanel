@@ -1,0 +1,8 @@
+{
+  "provider": "yandex",
+  "token": "YC_ACCESS_TOKEN",
+  "region": "ru-central1-b",
+  "image": "ubuntu-22-04",
+  "ssh_key": "ssh-ed25519 AAAAC3Nza...",
+  "name": "reserve-vds"
+}

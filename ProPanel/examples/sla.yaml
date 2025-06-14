@@ -1,0 +1,16 @@
+sla:
+  uptime_target: 99.95
+  downtime_threshold: 5m
+  response_time_ms: 1500
+  alert_policy:
+    - type: telegram
+      to: "-100123456789"
+      template: |
+        ⚠️ <b>ALERT</b> — downtime > {{ downtime_threshold }}: {{ role }} {{ vds_name }}
+    - type: matrix
+      room: "!roomid:matrix.org"
+      template: |
+        [ALERT] {{ vds_name }} — SLA breach: {{ downtime }} min
+report:
+  email: admin@yourdomain.com
+  schedule: daily

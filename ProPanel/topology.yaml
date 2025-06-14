@@ -1,0 +1,18 @@
+nodes:
+  - id: v1
+    name: "Main Web"
+    ip: "192.168.1.101"
+    region: "EU"
+    role: "web"
+    status: "active"
+  - id: v2
+    name: "Reserve Web"
+    ip: "192.168.1.102"
+    region: "RU"
+    role: "reserve"
+    status: "reserve"
+edges:
+  - from: "v1"
+    to: "v2"
+    type: "swap"
+    comment: "Резервирование по web"

@@ -1,0 +1,13 @@
+[Unit]
+Description=SandrickTechPanel backend API
+After=network.target docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/sandricktechpanel
+ExecStart=/usr/bin/python3 -m uvicorn app.main:app --host 0.0.0.0 --port 443
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

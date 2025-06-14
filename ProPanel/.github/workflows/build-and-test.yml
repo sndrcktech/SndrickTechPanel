@@ -1,0 +1,33 @@
+name: Build & Test SandrickTechPanel
+
+on:
+  push:
+    branches: [main, release/*]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:23
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend Docker image
+        run: docker build -t sandrick/backend ./backend
+      - name: Build agent Docker image
+        run: docker build -t sandrick/agent ./agent
+      - name: Build frontend Docker image
+        run: docker build -t sandrick/frontend ./frontend
+      - name: Run tests
+        run: |
+          docker-compose up -d
+          sleep 15
+          curl -k https://localhost:443/health
+      - name: Archive built images
+        run: docker save sandrick/backend sandrick/agent sandrick/frontend | gzip > sandricktechpanel-images.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sandricktechpanel-docker-images
+          path: sandricktechpanel-images.tar.gz

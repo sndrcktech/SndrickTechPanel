@@ -1,0 +1,19 @@
+backup:
+  schedule: "02:00"
+  targets:
+    - vds: v1
+      type: full
+      store: s3
+      s3_bucket: "backups"
+      geo: "EU"
+    - vds: v2
+      type: replica
+      store: s3
+      s3_bucket: "backups"
+      geo: "RU"
+restore_policy:
+  auto_failover: true
+  promote_reserve: true
+  manual_confirm: false
+  test_restore: true
+  notification: [telegram, email]

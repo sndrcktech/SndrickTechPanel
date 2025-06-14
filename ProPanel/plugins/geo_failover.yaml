@@ -1,0 +1,20 @@
+geo_failover:
+  main_role: "web"
+  regions:
+    - id: "v1"
+      geo: "RU"
+      role: "web"
+      priority: 1
+    - id: "v2"
+      geo: "EU"
+      role: "reserve"
+      priority: 2
+    - id: "v3"
+      geo: "US"
+      role: "reserve"
+      priority: 3
+  policy:
+    auto_failover: true
+    trigger_downtime: 60s
+    prefer_local: true
+    alert_channels: [telegram, matrix]

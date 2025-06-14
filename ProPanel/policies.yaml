@@ -1,0 +1,23 @@
+- role: web
+  actions: [deploy, swap, failover, backup, update, shell]
+  require_approval: false
+  limits:
+    geo: [EU, RU, US]
+    downtime_max: 5m
+- role: ca
+  actions: [deploy, swap, failover, backup, update]
+  require_approval: true
+  limits:
+    geo: [EU, US]
+    need_2fa: true
+- role: mail
+  actions: [deploy, backup, restore, swap, failover, shell]
+  require_approval: false
+  limits:
+    backup_geo: [EU, RU]
+- role: vpn
+  actions: [deploy, swap, failover, backup, update, shell]
+  require_approval: false
+- role: proxy
+  actions: [deploy, swap, failover, update]
+  require_approval: false

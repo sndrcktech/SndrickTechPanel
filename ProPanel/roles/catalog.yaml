@@ -1,0 +1,45 @@
+- role: web
+  title: "Web сервер"
+  category: "Web"
+  services: [nginx, php-fpm, certbot, prometheus-exporter]
+  uninstall: [mail, ca, db]
+  wizard:
+    - { name: fqdn, label: "Домен сайта", type: "text" }
+    - { name: ssl, label: "Включить SSL", type: "checkbox", default: true }
+    - { name: php_ver, label: "Версия PHP", type: "select", options: ["8.2", "8.1", "7.4"] }
+    - { name: git_repo, label: "Git-репозиторий", type: "text" }
+- role: mail
+  title: "Mail сервер"
+  category: "Mail"
+  services: [postfix, dovecot, roundcube, rspamd, certbot]
+  uninstall: [web, ca]
+  wizard:
+    - { name: mail_domain, label: "Почтовый домен", type: "text" }
+    - { name: dkim, label: "Включить DKIM", type: "checkbox", default: true }
+- role: ca
+  title: "Центр сертификации"
+  category: "CA"
+  services: [cfssl, ldap]
+  uninstall: [mail, web, vpn]
+  wizard:
+    - { name: ca_type, label: "Тип CA", type: "select", options: ["root", "intermediate"] }
+    - { name: org, label: "Организация", type: "text" }
+    - { name: ttl, label: "Срок действия (дней)", type: "number", default: 365 }
+- role: vpn
+  title: "VPN-сервер"
+  category: "VPN"
+  services: [xray, openvpn, wireguard, strongswan]
+  uninstall: []
+  wizard:
+    - { name: vpn_type, label: "Тип VPN", type: "select", options: ["xray", "wireguard", "openvpn", "ipsec"] }
+    - { name: client_count, label: "Кол-во клиентов", type: "number", default: 10 }
+    - { name: allow_lan, label: "LAN доступ", type: "checkbox", default: false }
+- role: proxy
+  title: "Прокси-сервер"
+  category: "Proxy"
+  services: [squid, 3proxy, nginx]
+  uninstall: []
+  wizard:
+    - { name: proxy_type, label: "Тип прокси", type: "select", options: ["http", "socks5", "https"] }
+    - { name: auth, label: "Аутентификация", type: "checkbox", default: true }
+# ...дополняется на любое число production-ролей

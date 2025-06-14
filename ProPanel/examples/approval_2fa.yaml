@@ -1,0 +1,9 @@
+approval_policy:
+  - role: ca
+    action: swap
+    require_2fa: true
+    approvers: ["admin", "security_officer"]
+  - role: db
+    action: restore
+    require_2fa: false
+    approvers: []
